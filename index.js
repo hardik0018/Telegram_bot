@@ -1,19 +1,27 @@
-const express = require("express");
-const axios = require("axios");
-const { handler } = require("./controller");
+const TelegramBot = require("node-telegram-bot-api");
+require("dotenv").config();
 
-const app = express();
-app.use(express.json());
+const bot = new TelegramBot(process.env.TELEGRAM_TOKEN, { polling: true });
 
-app.post("*", async (req, res) => {
-  console.log(req.body);
-  res.send(await handler(req));
-});
+const sendMessage = (id, message) => {
+  bot.sendMessage(id, message);
+};
 
-app.get("*", async (req, res) => {
-  res.send(await handler(req));
-});
-
-app.listen(4000, (err) => {
-  console.log("server is Running");
+bot.on("message", (message) => {
+  const { id } = message.from;
+  const messageText = message.text || "";
+  if (messageText.charAt(0) == "/") {
+    const command = messageText.substr(1);
+    console.log(command);
+    switch (command) {
+      case "start":
+        return sendMessage(id, "Hi Welcome");
+      case "status":
+        return sendMessage(id, "Under Process");
+      default:
+        return sendMessage(id, "Hey hi i donnot konw ");
+    }
+  } else {
+    return sendMessage(id, 'Command Not valid');
+  }
 });
