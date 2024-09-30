@@ -1,27 +1,17 @@
-const TelegramBot = require("node-telegram-bot-api");
+const { Telegraf } = require("telegraf");
+const { message } = require("telegraf/filters");
 require("dotenv").config();
 
-const bot = new TelegramBot(process.env.TELEGRAM_TOKEN, { polling: true });
+const web_link = "https://telegram-game-three.vercel.app/";
+const bot = new Telegraf(process.env.TELEGRAM_TOKEN);
 
-const sendMessage = (id, message) => {
-  bot.sendMessage(id, message);
-};
+bot.start((ctx) =>
+  ctx.reply("Welcome", {
+    reply_markup: { keyboard: [[{ text: "web_app", web_app: {url:web_link} }]] },
+  })
+);
+bot.help((ctx) => ctx.reply("Send me a sticker"));
+bot.on(message("sticker"), (ctx) => ctx.reply("👍"));
+bot.hears("hi", (ctx) => ctx.reply("Hey there"));
 
-bot.on("message", (message) => {
-  const { id } = message.from;
-  const messageText = message.text || "";
-  if (messageText.charAt(0) == "/") {
-    const command = messageText.substr(1);
-    console.log(command);
-    switch (command) {
-      case "start":
-        return sendMessage(id, "Hi Welcome");
-      case "status":
-        return sendMessage(id, "Under Process");
-      default:
-        return sendMessage(id, "Hey hi i donnot konw ");
-    }
-  } else {
-    return sendMessage(id, 'Command Not valid');
-  }
-});
+bot.launch();
