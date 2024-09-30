@@ -7,7 +7,9 @@ const bot = new Telegraf(process.env.TELEGRAM_TOKEN);
 
 bot.start((ctx) =>
   ctx.reply("Welcome", {
-    reply_markup: { keyboard: [[{ text: "web_app", web_app: {url:web_link} }]] },
+    reply_markup: {
+      remove_keyboard: [[{ text: "web_app", web_app: { url: web_link } }]],
+    },
   })
 );
 bot.help((ctx) => ctx.reply("Send me a sticker"));
