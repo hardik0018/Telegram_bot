@@ -4,7 +4,7 @@ const UserSchema = new mongoose.Schema(
   {
     id: { type: Number, require: true, unique: true },
     name: { type: String, require: true },
-    coin: { type: Number, require: true },
+    coin: { type: Number, require: false },
     tap: { type: Number },
     PPH: { type: Number },
     level: { type: Number },
