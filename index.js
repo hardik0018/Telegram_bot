@@ -41,6 +41,8 @@ app.get("/User/getUser/:telegramId", async (req, res) => {
 bot.start(async (ctx) => {
   const chatId = ctx.chat.id;
   const username = ctx.from.username;
+
+  console.log(username);
   // Check if user already exists
   const existingUser = await TeleUser.findOne({ teleID: chatId });
 
