@@ -1,12 +1,17 @@
 const express = require("express");
 const User = require("../models/user");
+const voucher_codes = require("voucher-code-generator");
 const router = express.Router();
 
 router.post("/Add", async (req, res) => {
   const { body } = req;
+  let refcode = voucher_codes.generate({
+    length: 6,
+  });
   if (!body) return res.send({ success: 0, message: "Not Data is get" });
   let insert = await User.create({
     ...body,
+    referCode: refcode,
   });
 
   if (!insert) return res.send({ success: 0, message: "Not Create User" });
@@ -31,18 +36,16 @@ router.get("/getUser/:telegramId", async (req, res) => {
   }
 });
 
-router.post("/UpdateCoin", async (req, res) => {
-  const { id, coin } = req.body;
+router.post("/UpdateData", async (req, res) => {
+  const { id } = req.body;
   try {
     // Fetch the user from the database by Telegram ID
-    const user = await User.findOneAndUpdate(
+    await User.findOneAndUpdate(
       { teleID: id },
       {
-        coin: coin,
+        ...req.body,
       }
     );
-
-    if (!user) return res.json({ success: true, data: user });
 
     res.json({ success: false, message: "User not found" });
   } catch (error) {

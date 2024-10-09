@@ -9,10 +9,12 @@ const UserSchema = new mongoose.Schema(
     PPH: { type: Number, default: 0 },
     level: { type: Number, default: 1 },
     img: { type: String },
+    Cards: { type: Object },
     redeem: { type: Array, default: [] },
     status: { type: Boolean },
     ban: { type: Object },
     friends: { type: Array, default: [] },
+    referCode: { type: String, unique: true },
   },
   {
     timestamps: true,
