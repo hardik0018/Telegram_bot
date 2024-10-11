@@ -24,6 +24,8 @@ app.use("/User", userRoute);
 bot.start(async (ctx) => {
   const chatId = ctx.chat.id;
   const username = ctx.from.username;
+  const startCommand = ctx.startPayload;
+  let refererName = "";
 
   // Check if user already exists
   const existingUser = await User.findOne({ teleID: chatId });
@@ -31,16 +33,36 @@ bot.start(async (ctx) => {
   if (!existingUser) {
     // If user does not exist, save new user
     try {
-      await User.create({
+      existingUser = await User.create({
         teleID: chatId,
         name: username,
+        friends: [],
       });
     } catch (error) {
       console.error("Error saving user:", error);
     }
   }
 
-  ctx.reply(`Hi, your name is : ${username}`, {
+  if (startCommand && startCommand.startsWith("REF_")) {
+    const referralCode = startCommand;
+    const referer = await User.findOne({ referCode: referralCode });
+
+    if (referer && referer.teleID !== chatId) {
+      refererName = referer.name;
+      existingUser.friends.push({ teleID: referer.teleID, name: refererName });
+      await existingUser.save();
+    } else {
+      console.log("same user");
+    }
+  }
+
+  // Send a welcome message to the new user
+  let welcomeMessage = `Hi, your name is: ${username}`;
+  if (refererName) {
+    welcomeMessage += `\nYou were referred by: ${refererName}`;
+  }
+
+  ctx.reply(welcomeMessage, {
     reply_markup: {
       keyboard: [
         [{ text: "web_app", web_app: { url: `${web_link}?tele=${chatId}` } }],
