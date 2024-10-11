@@ -1,39 +1,48 @@
 const express = require("express");
 const User = require("../models/user");
 const router = express.Router();
+const voucher_codes = require("voucher-code-generator");
 
 router.post("/Add", async (req, res) => {
   const { body } = req;
   let refcode = voucher_codes.generate({
-    length: 6,
+    length: 10,
   });
-  if (!body) return res.send({ success: 0, message: "Not Data is get" });
+  if (!body.teleID && !body.name)
+    return res.send({ success: 0, message: "Name & teleID required" });
+
   let insert = await User.create({
     ...body,
-    referCode: refcode,
+    referCode: "REF_" + refcode,
   });
 
   if (!insert) return res.send({ success: 0, message: "Not Create User" });
-  //   console.log(req.body, req);
+  console.log(req.body, req);
   res.send({ success: 1, message: "User is Created" });
 });
 
-router.get("/getUser/:telegramId", async (req, res) => {
-  const { telegramId } = req.params;
+router.post("/Test", async (req, res) => {
+  const { body } = req;
 
-  try {
-    // Fetch the user from the database by Telegram ID
-    const user = await TeleUser.findOne({ teleID: telegramId });
-
-    if (user) {
-      res.json({ success: true, name: user.name });
-    } else {
-      res.json({ success: false, message: "User not found" });
-    }
-  } catch (error) {
-    res.json({ success: false, message: "Database error" });
-  }
+  res.send({ ...body });
 });
+
+// router.get("/getUser/:telegramId", async (req, res) => {
+//   const { telegramId } = req.params;
+
+//   try {
+//     // Fetch the user from the database by Telegram ID
+//     const user = await TeleUser.findOne({ teleID: telegramId });
+
+//     if (user) {
+//       res.json({ success: true, name: user.name });
+//     } else {
+//       res.json({ success: false, message: "User not found" });
+//     }
+//   } catch (error) {
+//     res.json({ success: false, message: "Database error" });
+//   }
+// });
 
 router.get("/getUser/:telegramId", async (req, res) => {
   const { telegramId } = req.params;
@@ -56,14 +65,18 @@ router.post("/UpdateData", async (req, res) => {
   const { id } = req.body;
   try {
     // Fetch the user from the database by Telegram ID
-    await User.findOneAndUpdate(
+    const update = await User.findOneAndUpdate(
       { teleID: id },
       {
         ...req.body,
       }
     );
 
-    res.json({ success: false, message: "User not found" });
+    if (update) {
+      res.json({ success: true, data: update });
+    } else {
+      res.json({ success: false, message: "User not found & not update" });
+    }
   } catch (error) {
     return res.json({ success: false, message: "Database error" });
   }
