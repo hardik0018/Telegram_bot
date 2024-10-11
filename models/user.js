@@ -2,17 +2,19 @@ const mongoose = require("mongoose");
 
 const UserSchema = new mongoose.Schema(
   {
-    id: { type: Number, require: true, unique: true },
+    teleID: { type: Number, require: true, unique: true },
     name: { type: String, require: true },
-    coin: { type: Number, require: false },
-    tap: { type: Number },
-    PPH: { type: Number },
-    level: { type: Number },
+    coin: { type: Number, require: false, default: 0 },
+    tap: { type: Number, default: 1 },
+    PPH: { type: Number, default: 0 },
+    level: { type: Number, default: 1 },
     img: { type: String },
-    redeem: { type: Array },
+    Cards: { type: Object },
+    redeem: { type: Array, default: [] },
     status: { type: Boolean },
     ban: { type: Object },
-    friends: { type: Array },
+    friends: { type: Array, default: [] },
+    referCode: { type: String, unique: true },
   },
   {
     timestamps: true,

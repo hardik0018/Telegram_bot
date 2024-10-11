@@ -2,11 +2,11 @@ const express = require("express");
 const app = express();
 
 const { Telegraf } = require("telegraf");
-const { message } = require("telegraf/filters");
 const mongoose = require("mongoose");
 const userRoute = require("./Routes/user");
 
 const cors = require("cors");
+const User = require("./models/user");
 app.use(express.json());
 app.use(cors());
 require("dotenv").config();
@@ -25,24 +25,19 @@ bot.start(async (ctx) => {
   const chatId = ctx.chat.id;
   const username = ctx.from.username;
 
-  console.log(username);
   // Check if user already exists
-  const existingUser = await TeleUser.findOne({ teleID: chatId });
+  const existingUser = await User.findOne({ teleID: chatId });
 
   if (!existingUser) {
     // If user does not exist, save new user
     try {
-      const newUser = await TeleUser.create({
+      await User.create({
         teleID: chatId,
         name: username,
       });
-
-      console.log("New user saved:", newUser);
     } catch (error) {
       console.error("Error saving user:", error);
     }
-  } else {
-    console.log("User already exists:", existingUser);
   }
 
   ctx.reply(`Hi, your name is : ${username}`, {
@@ -55,8 +50,6 @@ bot.start(async (ctx) => {
   });
 });
 bot.help((ctx) => ctx.reply("Send me a sticker"));
-bot.on(message("sticker"), (ctx) => ctx.reply("👍"));
-bot.hears("Hi", (ctx) => ctx.reply("Hey there"));
 
 bot
   .launch()
