@@ -5,7 +5,7 @@ const { Telegraf } = require("telegraf");
 const { message } = require("telegraf/filters");
 const mongoose = require("mongoose");
 const userRoute = require("./Routes/user");
-const TeleUser = require("./models/tele_users");
+
 const cors = require("cors");
 app.use(express.json());
 app.use(cors());
@@ -18,25 +18,8 @@ mongoose
 
 const web_link = "https://telegram-game-three.vercel.app/";
 const bot = new Telegraf(process.env.TELEGRAM_TOKEN);
-// const bot = new Telegraf("7603677002:AAGSYmGLIhR2qo0y9AEAX7vbxe-luyjL0Ww");
 
 app.use("/User", userRoute);
-app.get("/User/getUser/:telegramId", async (req, res) => {
-  const { telegramId } = req.params;
-
-  try {
-    // Fetch the user from the database by Telegram ID
-    const user = await TeleUser.findOne({ teleID: telegramId });
-
-    if (user) {
-      res.json({ success: true, name: user.name });
-    } else {
-      res.json({ success: false, message: "User not found" });
-    }
-  } catch (error) {
-    res.json({ success: false, message: "Database error" });
-  }
-});
 
 bot.start(async (ctx) => {
   const chatId = ctx.chat.id;
