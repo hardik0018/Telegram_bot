@@ -4,7 +4,6 @@ const app = express();
 const { Telegraf } = require("telegraf");
 const mongoose = require("mongoose");
 const userRoute = require("./Routes/user");
-const TeleUser = require("./models/tele_users");
 const cors = require("cors");
 const User = require("./models/user");
 app.use(express.json());
@@ -16,7 +15,7 @@ mongoose
   .then(() => console.log("Connected!"))
   .catch((err) => console.error("MongoDB connection error:", err));
 
-const web_link = "https://telegram-game-three.vercel.app/";
+const web_link = "https://hb6gjpgg-3000.inc1.devtunnels.ms/";
 const bot = new Telegraf(process.env.TELEGRAM_TOKEN);
 // const bot = new Telegraf("7603677002:AAGSYmGLIhR2qo0y9AEAX7vbxe-luyjL0Ww");
 
@@ -31,6 +30,7 @@ bot.start(async (ctx) => {
 
   if (!existingUser) {
     // If user does not exist, save new user
+
     try {
       await User.create({
         teleID: chatId,

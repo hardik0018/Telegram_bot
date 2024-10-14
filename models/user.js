@@ -14,7 +14,6 @@ const UserSchema = new mongoose.Schema(
     status: { type: Boolean },
     ban: { type: Object },
     friends: { type: Array, default: [] },
-    referCode: { type: String, unique: true },
   },
   {
     timestamps: true,

@@ -1,23 +1,6 @@
 const express = require("express");
 const User = require("../models/user");
-const voucher_codes = require("voucher-code-generator");
 const router = express.Router();
-
-router.post("/Add", async (req, res) => {
-  const { body } = req;
-  let refcode = voucher_codes.generate({
-    length: 6,
-  });
-  if (!body) return res.send({ success: 0, message: "Not Data is get" });
-  let insert = await User.create({
-    ...body,
-    referCode: refcode,
-  });
-
-  if (!insert) return res.send({ success: 0, message: "Not Create User" });
-  //   console.log(req.body, req);
-  res.send({ success: 1, message: "User is Created" });
-});
 
 router.get("/getUser/:telegramId", async (req, res) => {
   const { telegramId } = req.params;
