@@ -14,6 +14,13 @@ const UserSchema = new mongoose.Schema(
     status: { type: Boolean },
     ban: { type: Object },
     friends: { type: Array, default: [] },
+    friends: [
+      {
+        teleID: { type: Number, required: true },
+        name: { type: String, required: true },
+      },
+    ],
+    referCode: { type: String, unique: true },
   },
   {
     timestamps: true,
