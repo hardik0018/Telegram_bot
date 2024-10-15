@@ -1,19 +1,14 @@
 const express = require("express");
 const User = require("../models/user");
 const router = express.Router();
-const voucher_codes = require("voucher-code-generator");
 
 router.post("/Add", async (req, res) => {
   const { body } = req;
-  let refcode = voucher_codes.generate({
-    length: 10,
-  });
   if (!body.teleID && !body.name)
     return res.send({ success: 0, message: "Name & teleID required" });
 
   let insert = await User.create({
     ...body,
-    referCode: "REF_" + refcode,
   });
 
   if (!insert) return res.send({ success: 0, message: "Not Create User" });

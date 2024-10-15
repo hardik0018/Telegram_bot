@@ -25,10 +25,11 @@ bot.start(async (ctx) => {
   const chatId = ctx.chat.id;
   const username = ctx.from.username;
   const startCommand = ctx.startPayload;
+  console.log(startCommand);
   let refererName = "";
 
   // Check if user already exists
-  const existingUser = await User.findOne({ teleID: chatId });
+  let existingUser = await User.findOne({ teleID: chatId });
 
   if (!existingUser) {
     // If user does not exist, save new user
@@ -38,22 +39,29 @@ bot.start(async (ctx) => {
         name: username,
         friends: [],
       });
+
+      // refer user save if new user not exist
+      if (startCommand) {
+        const referralID = startCommand;
+        const referer = await User.findOne({ teleID: referralID });
+
+        if (referer && referer.teleID !== chatId) {
+          refererName = username;
+          referer.friends.push({
+            teleID: chatId,
+            name: refererName,
+          });
+          await referer.save();
+          console.log("user save");
+        } else {
+          console.log("same user");
+        }
+      }
     } catch (error) {
       console.error("Error saving user:", error);
     }
-  }
-
-  if (startCommand && startCommand.startsWith("REF_")) {
-    const referralCode = startCommand;
-    const referer = await User.findOne({ referCode: referralCode });
-
-    if (referer && referer.teleID !== chatId) {
-      refererName = referer.name;
-      existingUser.friends.push({ teleID: referer.teleID, name: refererName });
-      await existingUser.save();
-    } else {
-      console.log("same user");
-    }
+  } else {
+    console.log("user already exist");
   }
 
   // Send a welcome message to the new user

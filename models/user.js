@@ -19,7 +19,6 @@ const UserSchema = new mongoose.Schema(
         name: { type: String, required: true },
       },
     ],
-    referCode: { type: String, unique: true },
   },
   {
     timestamps: true,
