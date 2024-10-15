@@ -1,5 +1,6 @@
 const express = require("express");
 const User = require("../models/user");
+
 const router = express.Router();
 
 router.post("/Add", async (req, res) => {
@@ -21,23 +22,6 @@ router.post("/Test", async (req, res) => {
 
   res.send({ ...body });
 });
-
-// router.get("/getUser/:telegramId", async (req, res) => {
-//   const { telegramId } = req.params;
-
-//   try {
-//     // Fetch the user from the database by Telegram ID
-//     const user = await TeleUser.findOne({ teleID: telegramId });
-
-//     if (user) {
-//       res.json({ success: true, name: user.name });
-//     } else {
-//       res.json({ success: false, message: "User not found" });
-//     }
-//   } catch (error) {
-//     res.json({ success: false, message: "Database error" });
-//   }
-// });
 
 router.get("/getUser/:telegramId", async (req, res) => {
   const { telegramId } = req.params;
