@@ -41,18 +41,22 @@ bot.start(async (ctx) => {
     } catch (error) {
       console.error("Error saving user:", error);
     }
-  }
 
-  if (startCommand && startCommand.startsWith("REF_")) {
-    const referralCode = startCommand;
-    const referer = await User.findOne({ referCode: referralCode });
+    if (startCommand && startCommand.startsWith("REF_")) {
+      const referralCode = startCommand.slice(4);
+      console.log(referralCode);
+      const referer = await User.findOne({ teleID: referralCode });
 
-    if (referer && referer.teleID !== chatId) {
-      refererName = referer.name;
-      existingUser.friends.push({ teleID: referer.teleID, name: refererName });
-      await existingUser.save();
-    } else {
-      console.log("same user");
+      if (referer && referer.teleID !== chatId) {
+        refererName = referer.name;
+        existingUser.friends.push({
+          teleID: referer.teleID,
+          name: refererName,
+        });
+        await existingUser.save();
+      } else {
+        console.log("same user");
+      }
     }
   }
 
