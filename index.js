@@ -19,7 +19,7 @@ mongoose
   .then(() => console.log("Connected!"))
   .catch((err) => console.error("MongoDB connection error:", err));
 
-const web_link = "https://hb6gjpgg-3000.inc1.devtunnels.ms/";
+const web_link = "https://telegram-game-three.vercel.app/";
 const bot = new Telegraf(process.env.TELEGRAM_TOKEN);
 
 app.use("/User", userRoute);
@@ -65,19 +65,6 @@ bot.start(async (ctx) => {
       }
     } catch (error) {
       console.error("Error saving user:", error);
-    }
-  }
-
-  if (startCommand && startCommand.startsWith("REF_")) {
-    const referralCode = startCommand;
-    const referer = await User.findOne({ referCode: referralCode });
-
-    if (referer && referer.teleID !== chatId) {
-      refererName = referer.name;
-      existingUser.friends.push({ teleID: referer.teleID, name: refererName });
-      await existingUser.save();
-    } else {
-      console.log("same user");
     }
   }
 
