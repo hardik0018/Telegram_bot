@@ -6,8 +6,12 @@ const mongoose = require("mongoose");
 const userRoute = require("./Routes/user");
 const cors = require("cors");
 const User = require("./models/user");
+const MineRoute = require("./Routes/mine");
+const YoutubeRoute = require("./Routes/youtube");
 app.use(express.json());
 app.use(cors());
+app.use(express.urlencoded({ extended: true }));
+
 require("dotenv").config();
 
 mongoose
@@ -19,7 +23,9 @@ const web_link = "https://hb6gjpgg-3000.inc1.devtunnels.ms/";
 const bot = new Telegraf(process.env.TELEGRAM_TOKEN);
 
 app.use("/User", userRoute);
-
+app.use("/Mine", MineRoute);
+app.use("/Youtube", YoutubeRoute);
+app.use("/images", express.static("images"));
 bot.start(async (ctx) => {
   const chatId = ctx.chat.id;
   const username = ctx.from.username;
