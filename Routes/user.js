@@ -33,6 +33,7 @@ router.get("/getUser/:telegramId", async (req, res) => {
     if (user) {
       res.json({ success: true, data: user });
     } else {
+      console.error(error);
       res.json({ success: false, message: "User not found" });
     }
   } catch (error) {
