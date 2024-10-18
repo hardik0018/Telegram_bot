@@ -17,6 +17,11 @@ router.post("/Add", async (req, res) => {
   res.send({ success: 1, message: "User is Created" });
 });
 
+router.get("/get", async (req, res) => {
+  let all = await User.find();
+  res.json({ data: all });
+});
+
 router.post("/Test", async (req, res) => {
   const { body } = req;
 
@@ -52,13 +57,50 @@ router.post("/UpdateData", async (req, res) => {
       }
     );
 
-    if (update) {
-      res.json({ success: true, data: update });
-    } else {
-      res.json({ success: false, message: "User not found & not update" });
-    }
+    if (!update)
+      return res.send({
+        success: false,
+        message: "User not found & not update",
+      });
+
+    res.send({ success: true, data: update });
   } catch (error) {
     return res.json({ success: false, message: "Database error" });
   }
 });
+router.post("/Ban", async (req, res) => {
+  const { banReason, id } = req.body;
+
+  // Fetch the user from the database by Telegram ID
+  const update = await User.findOneAndUpdate(
+    { teleID: id },
+    {
+      ban: { reason: banReason, date: Date.now() },
+      status: false,
+    }
+  );
+
+  if (!update)
+    return res.send({ success: 0, message: "User not found & not update" });
+
+  res.send({ success: 1 });
+});
+router.get("/RemoveBan/:teleId", async (req, res) => {
+  const { teleId } = req.params;
+
+  // Fetch the user from the database by Telegram ID
+  const update = await User.findOneAndUpdate(
+    { teleID: teleId },
+    {
+      status: true,
+      $unset: { ban: 1 },
+    }
+  );
+
+  if (!update)
+    return res.send({ success: 0, message: "User not found & not update" });
+
+  res.send({ success: 1 });
+});
+
 module.exports = router;

@@ -44,6 +44,7 @@ bot.start(async (ctx) => {
         teleID: chatId,
         name: username,
         friends: [],
+        status: true,
       });
 
       // refer user save if new user not exist

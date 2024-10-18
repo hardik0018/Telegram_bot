@@ -11,7 +11,7 @@ const UserSchema = new mongoose.Schema(
     img: { type: String },
     Cards: { type: Object },
     redeem: { type: Array, default: [] },
-    status: { type: Boolean },
+    status: { type: Boolean},
     ban: { type: Object },
     friends: [
       {
