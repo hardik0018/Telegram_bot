@@ -35,14 +35,11 @@ router.get("/getUser/:telegramId", async (req, res) => {
     // Fetch the user from the database by Telegram ID
     const user = await User.findOne({ teleID: telegramId });
 
-    if (user) {
-      res.json({ success: true, data: user });
-    } else {
-      console.error(error);
-      res.json({ success: false, message: "User not found" });
-    }
+    if (!user) return res.send({ success: 0, message: "User not found" });
+
+    res.send({ success: 1, data: user });
   } catch (error) {
-    res.json({ success: false, message: "Database error" });
+    res.send({ success: false, message: "Database error" });
   }
 });
 

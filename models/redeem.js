@@ -2,9 +2,10 @@ const mongoose = require("mongoose");
 
 const RedeemSchema = new mongoose.Schema(
   {
-    Coin: { type: Number, required: true },
-    Ruppes: { type: Number, required: true },
+    coin: { type: Number, required: true },
+    rupees: { type: Number, required: true },
     qty: { type: Number, required: true },
+    condition: { type: Object },
   },
   {
     timestamps: true,

@@ -9,9 +9,9 @@ const UserSchema = new mongoose.Schema(
     PPH: { type: Number, default: 0 },
     level: { type: Number, default: 1 },
     img: { type: String },
-    Cards: { type: Object },
+    Cards: { type: Array, default: [] },
     redeem: { type: Array, default: [] },
-    status: { type: Boolean},
+    status: { type: Boolean },
     ban: { type: Object },
     friends: [
       {

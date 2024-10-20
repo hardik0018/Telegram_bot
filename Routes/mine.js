@@ -21,6 +21,7 @@ router.post("/Add", async (req, res) => {
     ...body,
     lvl: JSON.parse(body.lvl),
     img: name,
+    maxlvl:JSON.parse(body.lvl).length
   });
   res.send({ success: 1 });
 });
@@ -31,8 +32,8 @@ router.get("/get", async (req, res) => {
   res.send({ data: get });
 });
 
-router.delete("/delete", async (req, res) => {
-  const { id } = req.query;
+router.delete("/delete/:id", async (req, res) => {
+  const { id } = req.params;
 
   let del = await Mine.findByIdAndDelete(id);
   if (fs.existsSync(`./Images/${del.img}`)) {

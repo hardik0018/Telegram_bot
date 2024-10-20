@@ -17,8 +17,8 @@ router.get("/get", async (req, res) => {
   res.send({ data: get });
 });
 
-router.delete("/delete", async (req, res) => {
-  const { id } = req.query;
+router.delete("/delete/:id", async (req, res) => {
+  const { id } = req.params;
 
   await Youtube.findByIdAndDelete(id);
 

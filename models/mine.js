@@ -6,7 +6,9 @@ const MineSchema = new mongoose.Schema(
     img: { type: String, required: true },
     desc: { type: String, required: true },
     lvl: { type: Array, required: true },
-    category:{type:String,required:true},
+    category: { type: String, required: true },
+    currentlvl: { type: Number, default: 1 },
+    maxlvl: { type: Number },
     condition: { type: Object }, //Upgrade other card after update this to make condition
   },
   {

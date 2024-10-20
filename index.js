@@ -8,6 +8,8 @@ const cors = require("cors");
 const User = require("./models/user");
 const MineRoute = require("./Routes/mine");
 const YoutubeRoute = require("./Routes/youtube");
+const RedeemRoute = require("./Routes/redeem");
+const OrderRoute = require("./Routes/order");
 app.use(express.json());
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
@@ -25,6 +27,8 @@ const bot = new Telegraf(process.env.TELEGRAM_TOKEN);
 app.use("/User", userRoute);
 app.use("/Mine", MineRoute);
 app.use("/Youtube", YoutubeRoute);
+app.use("/Redeem", RedeemRoute);
+app.use("/Order", OrderRoute);
 app.use("/images", express.static("images"));
 bot.start(async (ctx) => {
   const chatId = ctx.chat.id;
