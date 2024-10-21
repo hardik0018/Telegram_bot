@@ -4,9 +4,13 @@ const Order = require("../models/order");
 
 router.post("/Add", async (req, res) => {
   const { body } = req;
-
+  const time = new Date();
+  const date = `${time.getDate()}-${time.getMonth()}-${time.getFullYear()}`;
   await Order.create({
     ...body,
+    time: Date.now(),
+    date: date,
+    status: false,
   });
   res.send({ success: 1 });
 });

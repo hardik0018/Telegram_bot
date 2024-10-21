@@ -1,5 +1,6 @@
 const express = require("express");
 const User = require("../models/user");
+const order = require("../models/order");
 
 const router = express.Router();
 
@@ -98,6 +99,17 @@ router.get("/RemoveBan/:teleId", async (req, res) => {
     return res.send({ success: 0, message: "User not found & not update" });
 
   res.send({ success: 1 });
+});
+
+router.get("/reward/:teleId", async (req, res) => {
+  const { teleId } = req.params;
+
+  // Fetch the user from the database by Telegram ID
+  const get = await order.find(
+    { teleID: teleId },
+  );
+
+  res.send({ data: get });
 });
 
 module.exports = router;

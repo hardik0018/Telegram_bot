@@ -10,7 +10,6 @@ const UserSchema = new mongoose.Schema(
     level: { type: Number, default: 1 },
     img: { type: String },
     Cards: { type: Array, default: [] },
-    redeem: { type: Array, default: [] },
     status: { type: Boolean },
     ban: { type: Object },
     friends: [
