@@ -12,6 +12,7 @@ const UserSchema = new mongoose.Schema(
     Cards: { type: Array, default: [] },
     status: { type: Boolean },
     ban: { type: Object },
+    youtube: { type: Array, default: [] },
     friends: [
       {
         teleID: { type: Number, required: true },

@@ -44,12 +44,12 @@ router.get("/getUser/:telegramId", async (req, res) => {
   }
 });
 
-router.post("/UpdateData", async (req, res) => {
-  const { id } = req.body;
+router.patch("/UpdateData/:teleID", async (req, res) => {
+  const { teleID } = req.params;
   try {
     // Fetch the user from the database by Telegram ID
     const update = await User.findOneAndUpdate(
-      { teleID: id },
+      { teleID: teleID },
       {
         ...req.body,
       }
@@ -105,9 +105,7 @@ router.get("/reward/:teleId", async (req, res) => {
   const { teleId } = req.params;
 
   // Fetch the user from the database by Telegram ID
-  const get = await order.find(
-    { teleID: teleId },
-  );
+  const get = await order.find({ teleID: teleId });
 
   res.send({ data: get });
 });
