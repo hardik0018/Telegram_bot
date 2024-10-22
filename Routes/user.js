@@ -110,4 +110,20 @@ router.get("/reward/:teleId", async (req, res) => {
   res.send({ data: get });
 });
 
+router.patch("/user/Checkin", async (req, res) => {
+  const { id, copy } = req.body;
+
+  if (!id || !copy)
+    return res.send({ success: 0, message: "Date not Receive" });
+
+  await User.findOneAndUpdate(
+    { teleID: id },
+    {
+      checkin: copy,
+    }
+  );
+
+  res.send({ success: 1 });
+});
+
 module.exports = router;

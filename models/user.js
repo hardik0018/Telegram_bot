@@ -13,6 +13,7 @@ const UserSchema = new mongoose.Schema(
     status: { type: Boolean },
     ban: { type: Object },
     youtube: { type: Array, default: [] },
+    checkin: { type: Object },
     friends: [
       {
         teleID: { type: Number, required: true },
