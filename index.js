@@ -32,12 +32,12 @@ const server = app.listen(PORT, (req, res) => {
   console.log(`Server Listening at PORT - ${PORT}`);
 });
 
+app.use("/images", express.static("Images"));
 app.use("/User", userRoute);
 app.use("/Mine", MineRoute);
 app.use("/Youtube", YoutubeRoute);
 app.use("/Redeem", RedeemRoute);
 app.use("/Order", OrderRoute);
-app.use("/images", express.static("images"));
 
 const io = new socketIo.Server(server, {
   cors: {
