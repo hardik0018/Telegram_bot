@@ -1,10 +1,24 @@
 const express = require("express");
 const router = express.Router();
 const Order = require("../models/order");
+const Redeem = require("../models/redeem");
 
 router.post("/Add", async (req, res) => {
   const { body } = req;
   const time = new Date();
+
+  if (!body.Redeemid)
+    return res.send({ success: 0, message: "Data not Receive" });
+
+  let find = await Redeem.findById(body.Redeemid);
+
+  if (!find) return res.send({ success: 0, message: "Invalid Redeem" });
+
+  if (find.qty <= 0) return res.send({ success: 0, message: "Out of Stock" });
+
+  find.qty--;
+  find.save();
+
   const date = `${time.getDate()}-${time.getMonth()}-${time.getFullYear()}`;
   await Order.create({
     ...body,

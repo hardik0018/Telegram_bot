@@ -115,8 +115,8 @@ bot
     console.error("Failed to start bot:", err);
   });
 
-  io.on("connection", (socket) => {
-    console.log(socket);
-  });
+io.on("connection", (socket) => {
+  console.log(socket.id);
+});
 
 module.exports = app;
