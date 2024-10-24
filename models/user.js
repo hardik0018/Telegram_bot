@@ -20,6 +20,13 @@ const UserSchema = new mongoose.Schema(
         name: { type: String, required: true },
       },
     ],
+    followOn: {
+      type: Array,
+      default: [
+        { platForm: "Youtube", status: false, coin: 1000 ,link:""},
+        { platForm: "Instagram", status: false, coin: 1000 ,link:""},
+      ],
+    },
   },
   {
     timestamps: true,

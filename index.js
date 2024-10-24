@@ -20,7 +20,6 @@ const corsConfig = {
 };
 
 app.use(cors(corsConfig));
-
 mongoose
   .connect(process.env.MONGODB)
   .then(() => console.log("Connected!"))
@@ -43,6 +42,9 @@ const io = new socketIo.Server(server, {
   cors: {
     origin: process.env.BASE_URL,
     credentials: true,
+    methods: ["GET", "POST"],
+    credentials: true,
+    allowedHeaders: ["Access-Control-Allow-Origin:*"],
   },
 });
 
