@@ -44,7 +44,6 @@ const io = new socketIo.Server(server, {
     credentials: true,
     methods: ["GET", "POST"],
     credentials: true,
-    allowedHeaders: ["Access-Control-Allow-Origin:*"],
   },
 });
 
@@ -52,7 +51,6 @@ bot.start(async (ctx) => {
   const chatId = ctx.chat.id;
   const username = ctx.from.username;
   const startCommand = ctx.startPayload;
-  console.log(startCommand);
   let refererName = "";
 
   // Check if user already exists

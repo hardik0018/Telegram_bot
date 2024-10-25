@@ -23,9 +23,9 @@ router.get("/getone/:id", async (req, res) => {
   // Fetch the user from the database by Telegram ID
   const find = await Redeem.findById(id);
 
-  if (!find) res.json({ success: 0, message: "User not found" });
+  if (!find) res.send({ success: 0, message: "User not found" });
 
-  res.json({ success: 1, data: find });
+  res.send({ success: 1, data: find });
 });
 
 router.patch("/update/:id", async (req, res) => {
