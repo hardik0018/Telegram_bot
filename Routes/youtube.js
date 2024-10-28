@@ -18,7 +18,13 @@ router.get("/get", async (req, res) => {
 });
 
 router.get("/user/get", async (req, res) => {
-  let get = await Youtube.find();
+  let get = await Youtube.find({},{
+    title:1,
+    desc:2,
+    link: 3,
+    coin: 4,
+    status: 5,
+  });
 
   res.send({ data: get });
 });
