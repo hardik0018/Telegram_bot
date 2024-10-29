@@ -10,6 +10,7 @@ const MineRoute = require("./Routes/mine");
 const YoutubeRoute = require("./Routes/youtube");
 const RedeemRoute = require("./Routes/redeem");
 const OrderRoute = require("./Routes/order");
+const AdminRoute = require("./Routes/Admin");
 require("dotenv").config();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -37,6 +38,7 @@ app.use("/Mine", MineRoute);
 app.use("/Youtube", YoutubeRoute);
 app.use("/Redeem", RedeemRoute);
 app.use("/Order", OrderRoute);
+app.use("/Admin", AdminRoute);
 
 const io = new socketIo.Server(server, {
   cors: {

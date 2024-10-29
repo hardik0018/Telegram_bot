@@ -14,7 +14,7 @@ router.post("/Add", async (req, res) => {
   });
 
   if (!insert) return res.send({ success: 0, message: "Not Create User" });
-  console.log(req.body, req);
+
   res.send({ success: 1, message: "User is Created" });
 });
 
