@@ -51,7 +51,7 @@ const io = new socketIo.Server(server, {
 
 bot.start(async (ctx) => {
   const chatId = ctx.chat.id;
-  const username = ctx.from.username;
+  const username = ctx.from.first_name;
   const startCommand = ctx.startPayload;
   let refererName = "";
 

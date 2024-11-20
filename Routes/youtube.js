@@ -18,25 +18,16 @@ router.get("/get", async (req, res) => {
 });
 
 router.get("/user/get", async (req, res) => {
-<<<<<<< HEAD
-  let get = await Youtube.find();
-  // {},
-  // {
-  //   title: 1,
-  //   desc: 2,
-  //   link: 3,
-  //   coin: 4,
-  //   status: 5,
-  // }
-=======
-  let get = await Youtube.find({},{
-    title:1,
-    desc:2,
-    link: 3,
-    coin: 4,
-    status: 5,
-  });
->>>>>>> 01ff17f983c3b9133405135b9434f57b60963b94
+  let get = await Youtube.find(
+    {},
+    {
+      title: 1,
+      desc: 2,
+      link: 3,
+      coin: 4,
+      status: 5,
+    }
+  );
 
   res.send({ data: get });
 });
