@@ -5,6 +5,9 @@ const mongoose = require("mongoose");
 
 const cors = require("cors");
 const http = require("http").createServer(app);
+require("dotenv").config();
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 const io = require("socket.io")(http, {
   cors: {
     origin: process.env.BASE_URL,
@@ -17,19 +20,14 @@ const YoutubeRoute = require("./Routes/youtube");
 const RedeemRoute = require("./Routes/redeem");
 const OrderRoute = require("./Routes/order");
 const AdminRoute = require("./Routes/Admin");
+const web_link = "https://telegram-game-three.vercel.app";
+const bot = new Telegraf(process.env.TELEGRAM_TOKEN);
 
-require("dotenv").config();
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
-app.use(cors());
+app.use(cors({ origin: process.env.BASE_URL, credentials: true }));
 mongoose
   .connect(process.env.MONGODB)
   .then(() => console.log("Connected!"))
   .catch((err) => console.error("MongoDB connection error:", err));
-
-const web_link = "https://telegram-game-three.vercel.app/";
-const bot = new Telegraf(process.env.TELEGRAM_TOKEN);
 
 app.use("/images", express.static("Images"));
 app.use("/User", userRoute);
@@ -121,5 +119,5 @@ io.on("connection", (socket) => {
 });
 
 http.listen(4000, () => {
-  console.log("Server is Running");
+  console.log("Server is Running in 4000");
 });
